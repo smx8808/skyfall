@@ -1,0 +1,24 @@
+Config t
+hostname R2
+
+crypto isakmp policy 1
+encryption aes
+authentication pre-share
+group 2
+
+crypto isakmp key MY_PASSWORD address 192.168.12.1 
+
+crypto ipsec transform-set MY_TRANSFORM_SET esp-aes esp-sha-hmac 
+mode tunnel
+
+crypto ipsec profile IPSEC_PROFILE
+set transform-set MY_TRANSFORM_SET 
+
+interface Tunnel0
+ip address 12.12.12.2 255.255.255.0
+tunnel source 192.168.12.2
+tunnel destination 192.168.12.1
+tunnel mode ipsec ipv4
+tunnel protection ipsec profile IPSEC_PROFILE
+
+ip route 192.168.1.0 255.255.255.0 Tunnel0
