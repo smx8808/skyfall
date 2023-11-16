@@ -49,8 +49,6 @@ Leaf3(9420O7O0H6B)
 Leaf4(9RYA5FLIOR8)
                     Eth1/4         155    R S I s   N9K-C9300v    Eth1/1</pre>
 
-
-
 <pre class="EnlighterJSRAW" data-enlighter-language="generic" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="false" data-enlighter-lineoffset="" data-enlighter-title="" data-enlighter-group="">Spine2# sh cdp nei
 Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   S - Switch, H - Host, I - IGMP, r - Repeater,
@@ -71,11 +69,7 @@ Leaf4(9RYA5FLIOR8)
 
 <p>Interfaces are connected according to our physical topology.</p>
 
-
-
 <p>Next, we will turn the ports into routed ports and enable jumbo frames:</p>
-
-
 
 <pre class="EnlighterJSRAW" data-enlighter-language="generic" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="false" data-enlighter-lineoffset="" data-enlighter-title="" data-enlighter-group="">Spine1(config)# int eth1/1-4
 Spine1(config-if-range)# mtu 9216
@@ -100,46 +94,17 @@ Leaf3(config-if-range)# no switchport
 Leaf4(config)# int eth1/1-2
 Leaf4(config-if-range)# mtu 9216
 Leaf4(config-if-range)# no switchport</pre>
-
-
-
 <p>Next, the underlay will be configured using OSPF on unnumbered links according to this topology:</p>
-
-
-
 <figure class="wp-block-image size-full"><a href="https://lostintransit.se/wp-content/uploads/2023/08/VXLAN_topology-OSPF.drawio-1.png"><img decoding="async" loading="lazy" width="698" height="522" src="https://lostintransit.se/wp-content/uploads/2023/08/VXLAN_topology-OSPF.drawio-1.png" alt="" class="wp-image-9218" srcset="https://lostintransit.se/wp-content/uploads/2023/08/VXLAN_topology-OSPF.drawio-1.png 698w, https://lostintransit.se/wp-content/uploads/2023/08/VXLAN_topology-OSPF.drawio-1-300x224.png 300w" sizes="(max-width: 698px) 100vw, 698px" /></a></figure>
-
-
-
 <p>To do this, the following is needed:</p>
-
-
-
 <ul>
 <li>Enable feature OSPF.</li>
-
-
-
 <li>Add loopbacks to all devices.</li>
-
-
-
 <li>Configure Ethernet interfaces as point to point.</li>
-
-
-
 <li>Configure Ethernet interfaces as unnumbered to loopback0.</li>
-
-
-
 <li>Enable OSPF on Ethernet interfaces and loopbacks.</li>
 </ul>
-
-
-
 <p>In addition, we will also configure name lookup in OSPF to get the name of our OSPF neighbors when verifying adjacencies.</p>
-
-
 
 <pre class="EnlighterJSRAW" data-enlighter-language="generic" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="false" data-enlighter-lineoffset="" data-enlighter-title="" data-enlighter-group="">Spine1(config)# feature ospf
 Spine1(config)# ip host Leaf1 192.0.2.3
@@ -235,11 +200,7 @@ Leaf4(config-if-range)# router ospf UNDERLAY
 Leaf4(config-router)#  log-adjacency-changes detail
 Leaf4(config-router)#  name-lookup</pre>
 
-
-
 <p>At this stage I was going to start verifying OSPF but noticed that interfaces had been shutdown after they were converted to routed ports. Let&#8217;s bring them up again:</p>
-
-
 
 <pre class="EnlighterJSRAW" data-enlighter-language="generic" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="false" data-enlighter-lineoffset="" data-enlighter-title="" data-enlighter-group="">Spine1(config)# int eth1/1-4
 Spine1(config-if-range)# no shut
@@ -259,11 +220,7 @@ Leaf3(config-if-range)# no shut
 Leaf4(config)# int eth1/1-2
 Leaf4(config-if-range)# no shut</pre>
 
-
-
 <p>Let&#8217;s verify the OSPF adjacencies on the spines:</p>
-
-
 
 <pre class="EnlighterJSRAW" data-enlighter-language="generic" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="false" data-enlighter-lineoffset="" data-enlighter-title="" data-enlighter-group="">Spine1# show ip ospf nei
  OSPF Process ID UNDERLAY VRF default
@@ -283,11 +240,7 @@ Spine2# show ip ospf nei
  Leaf3             1 FULL/ -          00:01:13 192.0.2.5       Eth1/3 
  Leaf4             1 FULL/ -          00:02:27 192.0.2.6       Eth1/4 </pre>
 
-
-
 <p>Due to the name lookup, we now get a nice representation of OSPF adjacencies including the names. Let&#8217;s check what a Type 1 LSA looks like now that we are using unnumbered links:</p>
-
-
 
 <pre class="EnlighterJSRAW" data-enlighter-language="generic" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="false" data-enlighter-lineoffset="" data-enlighter-title="" data-enlighter-group="">Spine1# show ip ospf data router 192.0.2.3 det
         OSPF Router with ID (192.0.2.1) (Process ID UNDERLAY VRF default)
@@ -322,21 +275,13 @@ Spine2# show ip ospf nei
        Number of TOS metrics: 0
          TOS   0 Metric: 40</pre>
 
-
-
 <p>Due to using unnumbered links, the router interface address looks a bit strange in the type 1 LSA. What is 0.0.0.2 and 0.0.0.3. When in doubt, refer to what the RFC for OSPF (<a href="https://datatracker.ietf.org/doc/html/rfc2328" target="_blank" rel="noreferrer noopener">RFC 2328</a>) says:</p>
-
-
 
 <blockquote class="wp-block-quote">
 <p>In addition, the Link Data field is specified for each link. This field gives 32 bits of extra information for the link. For links to transit networks, numbered point-to-point links and virtual links, this field specifies the IP interface address of the associated router interface (this is needed by the routing table calculation, see <a href="https://datatracker.ietf.org/doc/html/rfc2328#section-16.1.1">Section 16.1.1</a>). For links to stub networks, this field specifies the stub network&#8217;s IP address mask. For unnumbered point-to-point links, the Link Data field should be set to the unnumbered interface&#8217;s MIB-II [<a href="https://datatracker.ietf.org/doc/html/rfc2328#ref-Ref8">Ref8</a>] ifIndex value.</p>
 </blockquote>
 
-
-
 <p>The strange looking IP that we see is simply the index of the interface. This can be confirmed on Leaf1:</p>
-
-
 
 <pre class="EnlighterJSRAW" data-enlighter-language="generic" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="false" data-enlighter-lineoffset="" data-enlighter-title="" data-enlighter-group="">Leaf1# show ip ospf interface 
  Ethernet1/1 is up, line protocol is up
@@ -370,11 +315,7 @@ Spine2# show ip ospf nei
     State LOOPBACK, Network type LOOPBACK, cost 1
     Index 1</pre>
 
-
-
 <p>Let&#8217;s see if we have any routes in OSPF:</p>
-
-
 
 <pre class="EnlighterJSRAW" data-enlighter-language="generic" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="false" data-enlighter-lineoffset="" data-enlighter-title="" data-enlighter-group="">Leaf1# show ip route ospf
 IP Route Table for VRF "default"
@@ -397,11 +338,7 @@ IP Route Table for VRF "default"
     *via 192.0.2.1, Eth1/1, [110/81], 00:28:11, ospf-UNDERLAY, intra
     *via 192.0.2.2, Eth1/2, [110/81], 00:28:13, ospf-UNDERLAY, intra</pre>
 
-
-
 <p>Notice the ECMP paths towards the other leafs. Let&#8217;s see if we can ping:</p>
-
-
 
 <pre class="EnlighterJSRAW" data-enlighter-language="generic" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="false" data-enlighter-lineoffset="" data-enlighter-title="" data-enlighter-group="">Leaf1# ping 192.0.2.1
 PING 192.0.2.1 (192.0.2.1): 56 data bytes
@@ -459,11 +396,7 @@ PING 192.0.2.6 (192.0.2.6): 56 data bytes
 5 packets transmitted, 5 packets received, 0.00% packet loss
 round-trip min/avg/max = 2.057/2.489/4.004 ms</pre>
 
-
-
 <p>The underlay is now working. Let&#8217;s add an additional loopback that will be used for VXLAN:</p>
-
-
 
 <pre class="EnlighterJSRAW" data-enlighter-language="generic" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="false" data-enlighter-lineoffset="" data-enlighter-title="" data-enlighter-group="">Leaf1(config)# int lo1
 Leaf1(config-if)# ip add 203.0.113.1/32
@@ -481,11 +414,7 @@ Leaf4(config)# int lo1
 Leaf4(config-if)# ip add 203.0.113.4/32
 Leaf4(config-if)# ip router ospf UNDERLAY area 0.0.0.0</pre>
 
-
-
 <p>Now, let&#8217;s verify the loopbacks are reachable:</p>
-
-
 
 <pre class="EnlighterJSRAW" data-enlighter-language="generic" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="false" data-enlighter-lineoffset="" data-enlighter-title="" data-enlighter-group="">Leaf1# ping 203.0.113.2 source-interface lo1
 PING 203.0.113.2 (203.0.113.2): 56 data bytes
@@ -521,37 +450,16 @@ PING 203.0.113.4 (203.0.113.4): 56 data bytes
 5 packets transmitted, 5 packets received, 0.00% packet loss
 round-trip min/avg/max = 1.958/2.493/3.81 ms</pre>
 
-
-
 <p>The next step is to enable PIM ASM and run Anycast RP on the spines to be able to send the multidestination traffic over multicast. We want to achieve the following:</p>
-
-
 
 <ul>
 <li>Enable the PIM feature.</li>
-
-
-
 <li>Enable PIM on all the underlay links.</li>
-
-
-
 <li>Create new loopback on spines to be used for Anycast RP.</li>
-
-
-
 <li>Advertise this loopback into OSPF.</li>
-
-
-
 <li>Configure Anycast RP (Nexus feature) on spines.</li>
-
-
-
 <li>Configure the RP on all devices.</li>
 </ul>
-
-
 
 <pre class="EnlighterJSRAW" data-enlighter-language="generic" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="false" data-enlighter-lineoffset="" data-enlighter-title="" data-enlighter-group="">Spine1(config)# feature pim
 Spine1(config)# interface loopback1
@@ -599,14 +507,9 @@ Leaf4(config)# ip pim rp-address 192.0.2.255 group-list 224.0.0.0/4
 Leaf4(config)# interface ethernet1/1-2
 Leaf4(config-if-range)#  ip pim sparse-mode
 
-
 </pre>
 
-
-
 <p>Verify PIM neighborships and that the RP has been configured:</p>
-
-
 
 <pre class="EnlighterJSRAW" data-enlighter-language="generic" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="false" data-enlighter-lineoffset="" data-enlighter-title="" data-enlighter-group="">Spine1# show ip pim nei
 PIM Neighbor Status for VRF "default"
@@ -634,11 +537,7 @@ RP: 192.0.2.255*, (0),
  group ranges:
  224.0.0.0/4      </pre>
 
-
-
 <p>Notice that list of Anycast RP members. Don&#8217;t forget to also put PIM on the loopback to be used for VXLAN:</p>
-
-
 
 <pre class="EnlighterJSRAW" data-enlighter-language="generic" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="false" data-enlighter-lineoffset="" data-enlighter-title="" data-enlighter-group="">Leaf1(config)# int lo1
 Leaf1(config-if)# ip pim sparse-mode 
@@ -652,30 +551,14 @@ Leaf3(config-if)# ip pim sparse-mode
 Leaf4(config)# int lo1
 Leaf4(config-if)# ip pim sparse-mode </pre>
 
-
-
 <p>Now, it&#8217;s time to start with the VXLAN configuration. We want to configure the following on the leafs:</p>
-
-
 
 <ul>
 <li>Enable VXLAN feature.</li>
-
-
-
 <li>Enable feature to map VLANs to VNIs.</li>
-
-
-
 <li>Create Network Virtual Endpoint (NVE).<br>Configure port towards server.</li>
 </ul>
-
-
-
 <p>First, enable the VXLAN feature:</p>
-
-
-
 <pre class="EnlighterJSRAW" data-enlighter-language="generic" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="false" data-enlighter-lineoffset="" data-enlighter-title="" data-enlighter-group="">Leaf1(config)# feature vn-segment-vlan-based
 Leaf1(config)# feature nv overlay
 
@@ -688,11 +571,7 @@ Leaf3(config)# feature nv overlay
 Leaf4(config)# feature vn-segment-vlan-based
 Leaf4(config)# feature nv overlay</pre>
 
-
-
 <p>Then configure the NVE and map it to a multicast group such as 239.0.0.1:</p>
-
-
 
 <pre class="EnlighterJSRAW" data-enlighter-language="generic" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="false" data-enlighter-lineoffset="" data-enlighter-title="" data-enlighter-group="">Leaf1(config)# interface nve1
 Leaf1(config-if-nve)#   no shutdown
@@ -718,11 +597,7 @@ Leaf4(config-if-nve)#   source-interface loopback1
 Leaf4(config-if-nve)#   member vni 1000
 Leaf4(config-if-nve-vni)#     mcast-group 239.0.0.1</pre>
 
-
-
 <p>Verify that NVE is up:</p>
-
-
 
 <pre class="EnlighterJSRAW" data-enlighter-language="generic" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="false" data-enlighter-lineoffset="" data-enlighter-title="" data-enlighter-group="">Leaf1# show int nve1
 nve1 is up
@@ -736,11 +611,7 @@ admin state is up,  Hardware: NVE
     ucast: 67 pkts, 8300 bytes - mcast: 0 pkts, 0 bytes
 </pre>
 
-
-
 <p>Configure the VLAN, map it to the VNI, and configure the port towards the server:</p>
-
-
 
 <pre class="EnlighterJSRAW" data-enlighter-language="generic" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="false" data-enlighter-lineoffset="" data-enlighter-title="" data-enlighter-group="">Leaf1(config)# vlan 100
 Leaf1(config-vlan)#  vn-segment 1000
@@ -774,11 +645,7 @@ Leaf4(config-if)#  switchport mode access
 Leaf4(config-if)#  switchport access vlan 100
 Leaf4(config-if)#  no shutdown</pre>
 
-
-
 <p>At this point the leafs will join the multicast group:</p>
-
-
 
 <pre class="EnlighterJSRAW" data-enlighter-language="generic" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="false" data-enlighter-lineoffset="" data-enlighter-title="" data-enlighter-group="">Spine1# show ip mroute
 IP Multicast Routing Table for VRF "default"
@@ -817,11 +684,7 @@ IP Multicast Routing Table for VRF "default"
   Outgoing interface list: (count: 1)
     Ethernet1/2, uptime: 00:00:25, pim</pre>
 
-
-
 <p>There is now connectivity between the two servers:</p>
-
-
 
 <pre class="EnlighterJSRAW" data-enlighter-language="generic" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="false" data-enlighter-lineoffset="" data-enlighter-title="" data-enlighter-group="">cisco@server4:~$ ping 198.51.100.11
 PING 198.51.100.11 (198.51.100.11) 56(84) bytes of data.
@@ -833,11 +696,7 @@ PING 198.51.100.11 (198.51.100.11) 56(84) bytes of data.
 3 packets transmitted, 3 received, 0% packet loss, time 2004ms
 rtt min/avg/max/mdev = 3.509/4.170/4.612/0.476 ms</pre>
 
-
-
 <p>We can see on the leafs that they have learned the MAC address of the other server via the NVE:</p>
-
-
 
 <pre class="EnlighterJSRAW" data-enlighter-language="generic" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="false" data-enlighter-lineoffset="" data-enlighter-title="" data-enlighter-group="">Leaf1# show mac address-table 
 Legend: 
@@ -879,18 +738,12 @@ G    -     00ad.7083.1b08   static   -         F      F    sup-eth1(R)</pre>
 					class="comments"><a href="https://lostintransit.se/2023/08/20/building-a-vxlan-lab-using-nexus9000v/#comments">4 Comments</a></span>
 			</div></footer>
 	</article>
-
 						<ul class="default-wp-page clearfix">
 			<li class="previous"><a href="https://lostintransit.se/2023/08/18/caveats-when-deploying-nexus9000v/" rel="prev"><span class="meta-nav">&larr;</span> Caveats When Deploying Nexus9000v</a></li>
 			<li class="next"><a href="https://lostintransit.se/2023/08/22/unnumbered-links-in-ospf/" rel="next">Unnumbered Links In OSPF <span class="meta-nav">&rarr;</span></a></li>
 		</ul>
-	
-				
-				
-				
 <div id="comments" class="comments-area">
 
-	
 			<h3 class="comments-title">
 			4 thoughts on &ldquo;<span>Building a VXLAN Lab Using Nexus9000v</span>&rdquo;		</h3>
 
@@ -917,33 +770,32 @@ G    -     00ad.7083.1b08   static   -         F      F    sup-eth1(R)</pre>
 					
 					<section class="comment-content comment">
 						<p>There is no course. I provide free access to my blog.</p>
-						<a rel='nofollow' class='comment-reply-link' href='https://lostintransit.se/2023/08/20/building-a-vxlan-lab-using-nexus9000v/?replytocom=699142#respond' data-commentid="699142" data-postid="9192" data-belowelement="comment-699142" data-respondelement="respond" data-replyto="Reply to ddib" aria-label='Reply to ddib'>Reply</a>					</section><!-- .comment-content -->
-
-				</article><!-- #comment-## -->
-				</li><!-- #comment-## -->
-</ul><!-- .children -->
-</li><!-- #comment-## -->
+						<a rel='nofollow' class='comment-reply-link' href='https://lostintransit.se/2023/08/20/building-a-vxlan-lab-using-nexus9000v/?replytocom=699142#respond' data-commentid="699142" data-postid="9192" data-belowelement="comment-699142" data-respondelement="respond" data-replyto="Reply to ddib" aria-label='Reply to ddib'>Reply</a>					</section>
+					
+</article>
+</li>
+</ul>
+</li>
 				<li class="comment even thread-odd thread-alt depth-1" id="li-comment-699599">
 				<article id="comment-699599" class="comment">
 					<header class="comment-meta comment-author vcard">
-						<img alt='' src='https://secure.gravatar.com/avatar/4836756ea0a86af4ff859c62b19377e6?s=74&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/4836756ea0a86af4ff859c62b19377e6?s=148&#038;d=mm&#038;r=g 2x' class='avatar avatar-74 photo' height='74' width='74' loading='lazy' decoding='async'/><div class="comment-author-link">Yanna</div><div class="comment-date-time">September 1, 2023 at 5:09 pm</div><a class="comment-permalink" href="https://lostintransit.se/2023/08/20/building-a-vxlan-lab-using-nexus9000v/#comment-699599">Permalink</a>					</header><!-- .comment-meta -->
-
-					
+						<img alt='' src='https://secure.gravatar.com/avatar/4836756ea0a86af4ff859c62b19377e6?s=74&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/4836756ea0a86af4ff859c62b19377e6?s=148&#038;d=mm&#038;r=g 2x' class='avatar avatar-74 photo' height='74' width='74' loading='lazy' decoding='async'/><div class="comment-author-link">Yanna</div><div class="comment-date-time">September 1, 2023 at 5:09 pm</div><a class="comment-permalink" href="https://lostintransit.se/2023/08/20/building-a-vxlan-lab-using-nexus9000v/#comment-699599">Permalink</a>					</header>
+		
 					<section class="comment-content comment">
 						<p>hi,<br />
 how come you have only eth1/2 in Outgoing interface list in spine1?</p>
 						<a rel='nofollow' class='comment-reply-link' href='https://lostintransit.se/2023/08/20/building-a-vxlan-lab-using-nexus9000v/?replytocom=699599#respond' data-commentid="699599" data-postid="9192" data-belowelement="comment-699599" data-respondelement="respond" data-replyto="Reply to Yanna" aria-label='Reply to Yanna'>Reply</a>					</section><!-- .comment-content -->
 
-				</article><!-- #comment-## -->
-				<ul class="children">
-				<li class="comment byuser comment-author-ddib bypostauthor odd alt depth-2" id="li-comment-699629">
-				<article id="comment-699629" class="comment">
-					<header class="comment-meta comment-author vcard">
-						<img alt='' src='https://secure.gravatar.com/avatar/772535e205290bef7ae6c8b7493cd7e1?s=74&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/772535e205290bef7ae6c8b7493cd7e1?s=148&#038;d=mm&#038;r=g 2x' class='avatar avatar-74 photo' height='74' width='74' loading='lazy' decoding='async'/><div class="comment-author-link">ddib<span>Post author</span></div><div class="comment-date-time">September 2, 2023 at 5:52 am</div><a class="comment-permalink" href="https://lostintransit.se/2023/08/20/building-a-vxlan-lab-using-nexus9000v/#comment-699629">Permalink</a>					</header><!-- .comment-meta -->
+</article><!-- #comment-## -->
+	<ul class="children">
+	<li class="comment byuser comment-author-ddib bypostauthor odd alt depth-2" id="li-comment-699629">
+	<article id="comment-699629" class="comment">
+	<header class="comment-meta comment-author vcard">
+	<img alt='' src='https://secure.gravatar.com/avatar/772535e205290bef7ae6c8b7493cd7e1?s=74&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/772535e205290bef7ae6c8b7493cd7e1?s=148&#038;d=mm&#038;r=g 2x' class='avatar avatar-74 photo' height='74' width='74' loading='lazy' decoding='async'/><div class="comment-author-link">ddib<span>Post author</span></div><div class="comment-date-time">September 2, 2023 at 5:52 am</div><a class="comment-permalink" href="https://lostintransit.se/2023/08/20/building-a-vxlan-lab-using-nexus9000v/#comment-699629">Permalink</a>					</header><!-- .comment-meta -->
 
 					
-					<section class="comment-content comment">
-						<p>With multicast there is no ECMP by default so it selects neighbor with highest IP in PIM, I believe.</p>
-						<a rel='nofollow' class='comment-reply-link' href='https://lostintransit.se/2023/08/20/building-a-vxlan-lab-using-nexus9000v/?replytocom=699629#respond' data-commentid="699629" data-postid="9192" data-belowelement="comment-699629" data-respondelement="respond" data-replyto="Reply to ddib" aria-label='Reply to ddib'>Reply</a>					</section><!-- .comment-content -->
+<section class="comment-content comment">
+<p>With multicast there is no ECMP by default so it selects neighbor with highest IP in PIM, I believe.</p>
+<a rel='nofollow' class='comment-reply-link' href='https://lostintransit.se/2023/08/20/building-a-vxlan-lab-using-nexus9000v/?replytocom=699629#respond' data-commentid="699629" data-postid="9192" data-belowelement="comment-699629" data-respondelement="respond" data-replyto="Reply to ddib" aria-label='Reply to ddib'>Reply</a>					</section><!-- .comment-content -->
 
 				</article>
