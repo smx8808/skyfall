@@ -165,372 +165,139 @@ img.emoji {
 <li class="menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-552 current_page_item menu-item-553"><a href="/aws-site-to-site/" aria-current="page" class="elementor-item elementor-item-active" tabindex="-1">AWS – Site to Site</a></li>
 <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-562"><a href="/advanced-vpn/" class="elementor-item" tabindex="-1">Advanced VPN</a></li>
 <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-567"><a href="/expert-vpn/" class="elementor-item" tabindex="-1">Expert VPN</a></li>
-</ul>			</nav>
-				</div>
-				</div>
-					</div>
-		</div>
-							</div>
-		</section>
-					</div>
-		</div>
-				<div class="elementor-column elementor-col-50 elementor-top-column elementor-element elementor-element-63764669" data-id="63764669" data-element_type="column">
-			<div class="elementor-widget-wrap elementor-element-populated">
-								<div class="elementor-element elementor-element-663f6cda elementor-widget__width-initial elementor-widget elementor-widget-theme-post-content" data-id="663f6cda" data-element_type="widget" data-widget_type="theme-post-content.default">
-				<div class="elementor-widget-container">
-			
+</ul>	</nav>
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+</section>
+	</div>
+	</div>
+	<div class="elementor-column elementor-col-50 elementor-top-column elementor-element elementor-element-63764669" data-id="63764669" data-element_type="column">
+	<div class="elementor-widget-wrap elementor-element-populated">
+	<div class="elementor-element elementor-element-663f6cda elementor-widget__width-initial elementor-widget elementor-widget-theme-post-content" data-id="663f6cda" data-element_type="widget" data-widget_type="theme-post-content.default">
+	<div class="elementor-widget-container">
 <h2 class="wp-block-heading" id="setting-up-a-site-to-site-vpn-on-amazon-web-services">Setting up a Site-to-Site VPN on Amazon Web Services</h2>
 
-
-
 <h4 class="wp-block-heading" id="step-1">Step 1</h4>
-
-
-
 <p>Create a new VPC, defining an <strong>IPv4 CIDR block</strong>, in which we will later define the LAN used as our <em>AWS LAN</em>. Select <em>Create.</em></p>
-
-
-
 <figure class="wp-block-image"><a href="https://www.cisco.com/c/dam/en/us/support/docs/smb/routers/cisco-rv-series-small-business-routers/images/AWS-S2S-RVseries-Step1.png"><img decoding="async" src="https://www.cisco.com/c/dam/en/us/support/docs/smb/routers/cisco-rv-series-small-business-routers/images/AWS-S2S-RVseries-Step1.png" alt="A screen shot of the Create VPC page with Name Tag as step one and IPV4 CIDR Block as step two. "></a></figure>
-
-
-
 <h4 class="wp-block-heading" id="section"></h4>
-
-
-
+		
 <h4 class="wp-block-heading" id="step-2">Step 2</h4>
-
-
-
 <p>When creating the subnet, ensure that you have selected the <strong>VPC</strong> created previously. Define a subnet within the existing /16 network created previously. In this example, 172.16.10.0/24 is used.</p>
-
-
-
 <figure class="wp-block-image"><a href="https://www.cisco.com/c/dam/en/us/support/docs/smb/routers/cisco-rv-series-small-business-routers/images/AWS-S2S-RVseries-Step2.png"><img decoding="async" src="https://www.cisco.com/c/dam/en/us/support/docs/smb/routers/cisco-rv-series-small-business-routers/images/AWS-S2S-RVseries-Step2.png" alt="A screen shot of the Create Subnet with VPC as step one and IPV4 CIDR Block as step two. "></a></figure>
-
-
-
 <h4 class="wp-block-heading" id="step-3">Step 3</h4>
-
-
-
+		
 <p>Create a <strong>Customer Gateway</strong>, defining the <strong>IP Address</strong> as the <em>Public IP Address</em> of your Cisco RV Router.</p>
-
-
-
 <figure class="wp-block-image"><a href="https://www.cisco.com/c/dam/en/us/support/docs/smb/routers/cisco-rv-series-small-business-routers/images/AWS-S2S-RVseries-Step3.png"><img decoding="async" src="https://www.cisco.com/c/dam/en/us/support/docs/smb/routers/cisco-rv-series-small-business-routers/images/AWS-S2S-RVseries-Step3.png" alt="Screen shot of Create Customer Gateway with Name highlighted as step one and IP address as step 2."></a></figure>
-
-
-
 <h4 class="wp-block-heading" id="step-4">Step 4</h4>
-
-
-
+		
 <p>Create a <strong>Virtual Private Gateway</strong> – creating a <em>Name tag</em> to help identify later.</p>
-
-
-
 <figure class="wp-block-image"><a href="https://www.cisco.com/c/dam/en/us/support/docs/smb/routers/cisco-rv-series-small-business-routers/images/AWS-S2S-RVseries-Step4.png"><img decoding="async" src="https://www.cisco.com/c/dam/en/us/support/docs/smb/routers/cisco-rv-series-small-business-routers/images/AWS-S2S-RVseries-Step4.png" alt="Screen Shot of Virtual Private Gateway with Name tag as step 1 and highlighted in green. "></a></figure>
-
-
-
 <h4 class="wp-block-heading" id="step-5">Step 5</h4>
-
-
-
+		
 <p>Attach the <strong>Virtual Private Gateway</strong> to the <strong>VPC</strong> created previously.</p>
-
-
-
 <figure class="wp-block-image"><a href="https://www.cisco.com/c/dam/en/us/support/docs/smb/routers/cisco-rv-series-small-business-routers/images/AWS-S2S-RVseries-Step5.png"><img decoding="async" src="https://www.cisco.com/c/dam/en/us/support/docs/smb/routers/cisco-rv-series-small-business-routers/images/AWS-S2S-RVseries-Step5.png" alt="Screen shot of attach to VPC page. VPC field is in a green box and is marked as step 1. "></a></figure>
 
-
-
 <h4 class="wp-block-heading" id="step-6">step 6</h4>
-
-
-
 <p>Create a new <strong>VPN Connection</strong>, selecting the <strong>Target Gateway Type</strong> <em>Virtual Private Gateway</em>. Associate the <strong>VPN Connection</strong> with the <strong>Virtual Private Gateway</strong> created previously.</p>
-
-
-
 <figure class="wp-block-image"><a href="https://www.cisco.com/c/dam/en/us/support/docs/smb/routers/cisco-rv-series-small-business-routers/images/AWS-S2S-RVseries-Step6.png"><img decoding="async" src="https://www.cisco.com/c/dam/en/us/support/docs/smb/routers/cisco-rv-series-small-business-routers/images/AWS-S2S-RVseries-Step6.png" alt="Create VPN connection page, Target Gateway Type, which is step one, is highlighted in a green box with Virtual Private Gateway selected. Virtual Private Gateway is step 2 and shows the VPC that had been created in prior steps. "></a></figure>
-
-
-
 <h4 class="wp-block-heading" id="step-7">Step 7</h4>
-
-
-
+		
 <p>Select <em>Existing</em> <strong>Customer Gateway</strong>. Select the <strong>Customer Gateway</strong> created previously.</p>
-
-
-
 <figure class="wp-block-image"><a href="https://www.cisco.com/c/dam/en/us/support/docs/smb/routers/cisco-rv-series-small-business-routers/images/AWS-S2S-RVseries-Step7.png"><img decoding="async" src="https://www.cisco.com/c/dam/en/us/support/docs/smb/routers/cisco-rv-series-small-business-routers/images/AWS-S2S-RVseries-Step7.png" alt="Customer Gateway is Highlighted in a green box with the option of Existing highlighted and outlined as step one. Customer Gateway is outlined as step two and depicts the customer gateway that was created in previous steps. "></a></figure>
-
-
-
 <h4 class="wp-block-heading" id="step-8">Step 8</h4>
-
-
-
+		
 <p>For <strong>Routing Options</strong>, ensure to select <em>Stati</em>c<em>.</em> Enter any <strong>IP Prefixes</strong> including CIDR notation for any remote networks you expect to traverse the VPN. [These are the networks that exist on your Cisco Router.]</p>
-
-
-
 <figure class="wp-block-image"><a href="https://www.cisco.com/c/dam/en/us/support/docs/smb/routers/cisco-rv-series-small-business-routers/images/AWS-S2S-RVseries-Step8.png"><img decoding="async" src="https://www.cisco.com/c/dam/en/us/support/docs/smb/routers/cisco-rv-series-small-business-routers/images/AWS-S2S-RVseries-Step8.png" alt="Routing Options is highlighted in a green box with static selected. Static IP prefixes is chosen as step two. "></a></figure>
-
-
-
 <h4 class="wp-block-heading" id="step-9">Step 9</h4>
-
-
-
+		
 <p>We will not cover any of the <strong>Tunnel Options</strong> in this guide &#8211; select <em>Create VPN Connection</em>.</p>
-
-
-
 <figure class="wp-block-image"><a href="https://www.cisco.com/c/dam/en/us/support/docs/smb/routers/cisco-rv-series-small-business-routers/images/AWS-S2S-RVseries-Step9.png"><img decoding="async" src="https://www.cisco.com/c/dam/en/us/support/docs/smb/routers/cisco-rv-series-small-business-routers/images/AWS-S2S-RVseries-Step9.png" alt="This is a screenshot of the tunnel options of which remain untouched and with the default configurations. The Create VPN Connection button is highlighted to bring to action to go ahead and continue. "></a></figure>
-
-
-
 <h4 class="wp-block-heading" id="step-10">Step 10</h4>
 
-
-
 <p>Create a <strong>Route Table</strong> and associate the <strong>VPC</strong> created previously. Press <strong>Create</strong>.</p>
-
-
-
 <figure class="wp-block-image"><a href="https://www.cisco.com/c/dam/en/us/support/docs/smb/routers/cisco-rv-series-small-business-routers/images/AWS-S2S-RVseries-Step10.png"><img decoding="async" src="https://www.cisco.com/c/dam/en/us/support/docs/smb/routers/cisco-rv-series-small-business-routers/images/AWS-S2S-RVseries-Step10.png" alt="Screen Shot of Create Route Table page with Name Tag as step 1 and VPC as step 2. "></a></figure>
-
-
-
 <h4 class="wp-block-heading" id="step-11">Step 11</h4>
-
-
-
+		
 <p>Select the <strong>Route Table</strong> created previously. From the <strong>Subnet Associations</strong> tab, choose <em><strong>Edit subnet associations</strong></em>.</p>
-
-
-
 <figure class="wp-block-image"><a href="https://www.cisco.com/c/dam/en/us/support/docs/smb/routers/cisco-rv-series-small-business-routers/images/AWS-S2S-RVseries-Step11.png"><img decoding="async" src="https://www.cisco.com/c/dam/en/us/support/docs/smb/routers/cisco-rv-series-small-business-routers/images/AWS-S2S-RVseries-Step11.png" alt="Screen shot of the select route part of the page. The route that has to be selected is highlighted in a green box and outlined as step one. Edit Subnet associations button is highlighted as step 2 and depicted in a green box. "></a></figure>
-
-
-
 <h4 class="wp-block-heading" id="step-12">Step 12</h4>
-
-
-
+		
 <p>From the <strong>Edit subnet associations</strong> page, select the subnet created previously. Select the <strong>Route Table</strong> created previously. Then select <strong>save.</strong></p>
-
-
-
 <figure class="wp-block-image"><a href="https://www.cisco.com/c/dam/en/us/support/docs/smb/routers/cisco-rv-series-small-business-routers/images/AWS-S2S-RVseries-Step12.png"><img decoding="async" src="https://www.cisco.com/c/dam/en/us/support/docs/smb/routers/cisco-rv-series-small-business-routers/images/AWS-S2S-RVseries-Step12.png" alt="Screenshot of the Edit Subnet Associations. Subnet ID is higlighted in a greenbox and is marked as step one. Save button is highlighted in a green box. "></a></figure>
-
-
-
 <h4 class="wp-block-heading" id="step-13">Step 13 From the <strong>Route Propagation</strong> tab, choose <em>Edit route propagation</em>. <a href="https://www.cisco.com/c/dam/en/us/support/docs/smb/routers/cisco-rv-series-small-business-routers/images/AWS-S2S-RVseries-Step13.png"></a>
 </h4>
 
-
-
 <h4 class="wp-block-heading" id="step-14">Step 14</h4>
-
-
-
 <p>Select the <strong>Virtual Private Gateway</strong> created previously.</p>
-
-
-
 <figure class="wp-block-image"><a href="https://www.cisco.com/c/dam/en/us/support/docs/smb/routers/cisco-rv-series-small-business-routers/images/AWS-S2S-RVseries-Step14.png"><img decoding="async" src="https://www.cisco.com/c/dam/en/us/support/docs/smb/routers/cisco-rv-series-small-business-routers/images/AWS-S2S-RVseries-Step14.png" alt="Screen Shot of the Edit Route propagation section. Next to the area marked a route propagation, under Virtual Private Gateway (VPG), the VPG created prior to this step is higlighted and marked as step one. The save button is highlighted in a green box. "></a></figure>
-
-
-
 <h4 class="wp-block-heading" id="step-15">Step 15</h4>
-
-
-
+		
 <p>From <strong>VPC &gt; Security Groups</strong>, ensure that you have a policy created to allow the desired traffic.</p>
-
-
-
 <p><em><strong>Note</strong></em>: In this example, we are using a source of 10.0.10.0/24 – which corresponds to the subnet in use on our example RV router.</p>
-
-
-
 <figure class="wp-block-image"><a href="https://www.cisco.com/c/dam/en/us/support/docs/smb/routers/cisco-rv-series-small-business-routers/images/AWS-S2S-RVseries-Step15.png"><img decoding="async" src="https://www.cisco.com/c/dam/en/us/support/docs/smb/routers/cisco-rv-series-small-business-routers/images/AWS-S2S-RVseries-Step15.png" alt="Screen Shot of the Edit inbound Rules page. The traffic type is higlighted in a green box. Marked as step one is the field where the user would enter the desired traffic IP and subnet they would like to allow. "></a></figure>
-
-
-
 <h4 class="wp-block-heading" id="step-16">Step 16</h4>
-
-
-
 <p>Select the VPN Connection that you have created previously and choose <em>Download Configuration</em>.</p>
-
-
-
 <figure class="wp-block-image"><a href="https://www.cisco.com/c/dam/en/us/support/docs/smb/routers/cisco-rv-series-small-business-routers/images/AWS-S2S-RVseries-Step16.png"><img decoding="async" src="https://www.cisco.com/c/dam/en/us/support/docs/smb/routers/cisco-rv-series-small-business-routers/images/AWS-S2S-RVseries-Step16.png" alt="Screen shot of area where VPN connection that was created can be found. The VPN connection created is highlighted in a green box and the Download configuration button is also in a green box. "></a></figure>
-
-
-
 <h2 class="wp-block-heading" id="setting-up-site-to-site-on-an-rv16xrv26x-rv34x-router">Setting up Site-to-Site on an RV16X/RV26X, RV34X Router</h2>
-
-
-
 <h4 class="wp-block-heading" id="step-1-1">Step 1</h4>
-
-
-
 <p>Log in to the router using valid credentials.</p>
-
-
-
 <figure class="wp-block-image"><a href="https://www.cisco.com/c/dam/en/us/support/docs/smb/routers/cisco-rv-series-small-business-routers/images/AWS-S2S-RVseries-Step17-1.png"><img decoding="async" src="https://www.cisco.com/c/dam/en/us/support/docs/smb/routers/cisco-rv-series-small-business-routers/images/AWS-S2S-RVseries-Step17-1.png" alt="Router Login Page, with Userame, Password and Login highlighted. Numbered steps included to follow the format of which details would be entered. "></a></figure>
-
-
-
 <h4 class="wp-block-heading" id="step-2-1">Step 2</h4>
 
 
 
 <p>Navigate to <strong>VPN &gt; Ipsec Profiles.</strong> This will take you to the Ipsec profile page, press the add icon (+).</p>
-
-
-
 <figure class="wp-block-image"><a href="https://www.cisco.com/c/dam/en/us/support/docs/smb/routers/cisco-rv-series-small-business-routers/images/AWS-S2S-RVseries-Step18.png"><img decoding="async" src="https://www.cisco.com/c/dam/en/us/support/docs/smb/routers/cisco-rv-series-small-business-routers/images/AWS-S2S-RVseries-Step18.png" alt="The IPSEC Profile Page with the Menu options visible. VPN is step one, with IPSEC Profiles option highlighted as step two. The small plus button on the upper left side of the IPSEC Profiles table is highlighted and marked as step 3. "></a></figure>
-
-
-
 <h4 class="wp-block-heading" id="step-2-2">Step 3</h4>
-
-
-
 <p>We will now create our IPSEC profile. When creating the <strong>IPsec Profile</strong> on your Small Business router, ensure that <strong>DH Group 2</strong> is selected for Phase 1.</p>
-
-
-
 <p><strong>Note</strong>: AWS will support lower levels of encryption and authentication – in this example, AES-256 and SHA2-256 are used.</p>
-
-
-
 <figure class="wp-block-image"><a href="https://www.cisco.com/c/dam/en/us/support/docs/smb/routers/cisco-rv-series-small-business-routers/images/AWS-S2S-RVseries-Step19.png"><img decoding="async" src="https://www.cisco.com/c/dam/en/us/support/docs/smb/routers/cisco-rv-series-small-business-routers/images/AWS-S2S-RVseries-Step19.png" alt="Screen shot of the Add/Edit a New IPSec Profile page, with the profile name and options highlighted in green boxes. "></a></figure>
-
-
-
 <h4 class="wp-block-heading">Step 4</h4>
-
-
-
 <p>Ensure that your Phase two options match those made in phase one. For AWS DH Group 2 must be used.</p>
-
-
-
 <figure class="wp-block-image"><a href="https://www.cisco.com/c/dam/en/us/support/docs/smb/routers/cisco-rv-series-small-business-routers/images/AWS-S2S-RVseries-Step20.png"><img decoding="async" src="https://www.cisco.com/c/dam/en/us/support/docs/smb/routers/cisco-rv-series-small-business-routers/images/AWS-S2S-RVseries-Step20.png" alt="Screen shot of the Phase II options on the Add/Edit a New IPSec Profile page, options highlighted in green boxes. "></a></figure>
-
-
-
 <h4 class="wp-block-heading">Step 5</h4>
 
-
-
 <p>Press Apply and you will be navigated to the IPSEC page, be sure to press Apply once again.</p>
-
-
-
 <figure class="wp-block-image"><a href="https://www.cisco.com/c/dam/en/us/support/docs/smb/routers/cisco-rv-series-small-business-routers/images/AWS-S2S-RVseries-Step21.png"><img decoding="async" src="https://www.cisco.com/c/dam/en/us/support/docs/smb/routers/cisco-rv-series-small-business-routers/images/AWS-S2S-RVseries-Step21.png" alt="Screen shot of the IPSEC profiles page with the apply button highlighted in green "></a></figure>
-
-
-
 <h4 class="wp-block-heading" id="step-6-1">Step 6</h4>
-
-
-
 <p>Navigate to VPN&lt; Client to site and on the client to site page press the plus icon (+).</p>
-
-
-
 <figure class="wp-block-image"><a href="https://www.cisco.com/c/dam/en/us/support/docs/smb/routers/cisco-rv-series-small-business-routers/images/AWS-S2S-RVseries-Step22.png"><img decoding="async" src="https://www.cisco.com/c/dam/en/us/support/docs/smb/routers/cisco-rv-series-small-business-routers/images/AWS-S2S-RVseries-Step22.png" alt="The Site to Site Page with the Menu options visible. VPN is step one, with Site to Site option highlighted as step two. The small plus button on the upper left side of the Site to site Profiles table is highlighted and marked as step 3. "></a></figure>
-
-
-
 <h4 class="wp-block-heading" id="step-7-1">Step 7</h4>
-
-
-
 <p>When creating the IPsec Site-to-Site Connection, ensure to select the <strong>IPsec Profile</strong> created in the previous steps. Use the <strong>Remote Endpoint</strong> type of <em>Static IP</em> and enter the address provided in the exported AWS configuration. Enter the <strong>Pre-Shared Key</strong> provided in the exported configuration from AWS.</p>
-
-
-
 <figure class="wp-block-image"><a href="https://www.cisco.com/c/dam/en/us/support/docs/smb/routers/cisco-rv-series-small-business-routers/images/AWS-S2S-RVseries-Step23.png"><img decoding="async" src="https://www.cisco.com/c/dam/en/us/support/docs/smb/routers/cisco-rv-series-small-business-routers/images/AWS-S2S-RVseries-Step23.png" alt="The Add and edit a new connection page along side the IPSEC configuration made from the AWS configuration. On the Cisco router side of the screenshot, The ipsec profile is highlighted as step one. The remote end point and pre-shared key are marked as step two and three respectively to match the AWS screenshot. The tunnel Group and password are highlighted as step two and three. "></a></figure>
-
-
-
 <h4 class="wp-block-heading" id="section-14"></h4>
 
-
-
 <h4 class="wp-block-heading" id="step-8-1">Step 8</h4>
-
-
-
 <p>Enter the <strong>Local Identifier</strong> for your Small Business router – this entry should match the <strong>Customer Gateway</strong> created in AWS. Enter the <strong>IP Address</strong> and <strong>Subnet Mask</strong> for your Small Business router – this entry should match the <strong>Static IP Prefix</strong> added to the <strong>VPN Connection</strong> in AWS. Enter the <strong>IP Address</strong> and <strong>Subnet Mask</strong> for your Small Business router – this entry should match the <strong>Static IP Prefix</strong> added to the <strong>VPN Connection</strong> in AWS.</p>
-
-
-
 <figure class="wp-block-image"><a href="https://www.cisco.com/c/dam/en/us/support/docs/smb/routers/cisco-rv-series-small-business-routers/images/AWS-S2S-RVseries-Step24.png"><img decoding="async" src="https://www.cisco.com/c/dam/en/us/support/docs/smb/routers/cisco-rv-series-small-business-routers/images/AWS-S2S-RVseries-Step24.png" alt="Screenshot of the Local Group Setup. Local identifier is marked as step one and the IP address is marked as step 2. "></a></figure>
-
-
-
 <h4 class="wp-block-heading" id="step-9-1">Step 9</h4>
-
-
-
 <p>Enter the <strong>Remote Identifier</strong> for your AWS connection – this will be listed under Tunnel Details of the AWS <strong>Site-to-Site VPN Connection</strong> . Enter the <strong>IP Address</strong> and <strong>Subnet Mask</strong> for your AWS connection – which was defined during the AWS configuration. Then press <strong>Apply .</strong></p>
-
-
-
 <figure class="wp-block-image"><a href="https://www.cisco.com/c/dam/en/us/support/docs/smb/routers/cisco-rv-series-small-business-routers/images/AWS-S2S-RVseries-Step25.png"><img decoding="async" src="https://www.cisco.com/c/dam/en/us/support/docs/smb/routers/cisco-rv-series-small-business-routers/images/AWS-S2S-RVseries-Step25.png" alt="Screen Shot of Remote Group Setup section. Remote Identifier is marked as step one and highlighted in a green box. IP address and Subnet mask are marked as step two and are both highlighted in a green box."></a></figure>
-
-
-
 <h4 class="wp-block-heading" id="step-10-2">Step 10</h4>
-
-
-
 <p>Once on the Ip Site to Site page press <strong>Apply</strong>.</p>
-
-
-
 <figure class="wp-block-image"><a href="https://www.cisco.com/c/dam/en/us/support/docs/smb/routers/cisco-rv-series-small-business-routers/images/AWS-S2S-RVseries-Step26.png"><img decoding="async" src="https://www.cisco.com/c/dam/en/us/support/docs/smb/routers/cisco-rv-series-small-business-routers/images/AWS-S2S-RVseries-Step26.png" alt="Screenshot of Site to Site page with Apply Button highlighted in green. "></a></figure>
-
-
-
-<h2 class="wp-block-heading" id="conclusion">Conclusion</h2>
-
-
-
-<p>You have now successfully created a Site to Site VPN between your RV series router and your AWS. For community discussions on Site-to-Site VPN, go to the <a href="https://community.cisco.com/t5/small-business-support-community/ct-p/5541-small-business-support">Cisco Small Business Support Community</a> page and do a search for Site-to-Site VPN.</p>
-		</div>
-				</div>
-					</div>
-		</div>
-							</div>
-		</section>
-						</div>
-				<div data-elementor-type="footer" data-elementor-id="10" class="elementor elementor-10 elementor-location-footer" data-elementor-post-type="elementor_library">
-						<div class="elementor-element elementor-element-ec73999 e-flex e-con-boxed e-con e-parent" data-id="ec73999" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;,&quot;content_width&quot;:&quot;boxed&quot;}" data-core-v316-plus="true">
-					<div class="e-con-inner">
-				<div class="elementor-element elementor-element-08da434 elementor-widget elementor-widget-heading" data-id="08da434" data-element_type="widget" data-widget_type="heading.default">
-				<div class="elementor-widget-container">
-			<h2 class="elementor-heading-title elementor-size-default">&copy; securevpn.ai</h2>		</div>
-				</div>
-					</div>
-				</div>
-						</div>
-		
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+	<div data-elementor-type="footer" data-elementor-id="10" class="elementor elementor-10 elementor-location-footer" data-elementor-post-type="elementor_library">
+	<div class="elementor-element elementor-element-ec73999 e-flex e-con-boxed e-con e-parent" data-id="ec73999" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;,&quot;content_width&quot;:&quot;boxed&quot;}" data-core-v316-plus="true">
+	<div class="e-con-inner">
+	<div class="elementor-element elementor-element-08da434 elementor-widget elementor-widget-heading" data-id="08da434" data-element_type="widget" data-widget_type="heading.default">
+<div class="elementor-widget-container">
+<h2 class="elementor-heading-title elementor-size-default">&copy; securevpn.ai 2022 2023</h2>
+</div>
+</div>
+</div>
+</div>
+</div>
 <script src="/wp-content/themes/hello-elementor/assets/js/hello-frontend.min.js?ver=1.0.0" id="hello-theme-frontend-js"></script>
 <script src="/wp-content/plugins/elementor-pro/assets/lib/smartmenus/jquery.smartmenus.min.js?ver=1.0.1" id="smartmenus-js"></script>
 <script src="/wp-content/plugins/elementor-pro/assets/js/webpack-pro.runtime.min.js?ver=3.16.2" id="elementor-pro-webpack-runtime-js"></script>
@@ -558,8 +325,4 @@ var elementorFrontendConfig = {"environmentMode":{"edit":false,"wpPreview":false
 <script src="/wp-content/plugins/elementor-pro/assets/lib/sticky/jquery.sticky.min.js?ver=3.16.2" id="e-sticky-js"></script>
 
 </body>
-
-
-
-<!-- Page supported by LiteSpeed Cache 5.7.0.1 on 2023-11-14 12:58:00 -->
 </html>
